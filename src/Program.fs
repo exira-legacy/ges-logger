@@ -4,6 +4,9 @@ open System.IO
 open FSharp.Configuration
 open Topshelf
 open Time
+open Serilog
+open Destructurama
+open Newtonsoft.Json
 
 let executablePath = Assembly.GetEntryAssembly().Location |> Path.GetDirectoryName
 let configPath = Path.Combine(executablePath, "Logger.yaml")
@@ -17,7 +20,21 @@ let stop _ =
     true
 
 let start hostControl =
-    // TODO: Connect to GES, wire up Serilog and send all events to Serilog
+    let logger = LoggerConfiguration().Destructure.JsonNetTypes()
+
+    let logger =
+        if loggerConfig.Logger.Sinks.Console.Enabled then
+            logger.WriteTo.ColoredConsole()
+        else logger
+
+    let logger =
+        if loggerConfig.Logger.Sinks.RollingFile.Enabled then
+            logger.WriteTo.RollingFile(loggerConfig.Logger.Sinks.RollingFile.PathFormat)
+        else logger
+
+    let log = logger.CreateLogger()
+
+    // TODO: Connect to GES and send all events to Serilog
     true
 
 [<EntryPoint>]

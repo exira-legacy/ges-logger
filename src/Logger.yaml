@@ -13,6 +13,7 @@
 
         RollingFile:
             Enabled: true
+            PathFormat: events.txt
 
         Seq:
             Enabled: false
