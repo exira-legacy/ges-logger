@@ -15,12 +15,14 @@ type LoggerConfig = YamlConfig<"Logger.yaml">
 let loggerConfig = LoggerConfig()
 loggerConfig.Load configPath
 
-let stop _ =
-    // TODO: Disconnect from GES
-    true
+let configureLogger () =
+    let logger =
+        LoggerConfiguration()
+            .Destructure.JsonNetTypes()
 
-let start hostControl =
-    let logger = LoggerConfiguration().Destructure.JsonNetTypes()
+    let logger =
+        loggerConfig.Logger.Properties
+        |> Seq.fold (fun (logger: LoggerConfiguration) p -> logger.Enrich.WithProperty(p.key, p.value)) logger
 
     let logger =
         if loggerConfig.Logger.Sinks.Console.Enabled then
@@ -32,7 +34,15 @@ let start hostControl =
             logger.WriteTo.RollingFile(loggerConfig.Logger.Sinks.RollingFile.PathFormat)
         else logger
 
-    let log = logger.CreateLogger()
+    logger.CreateLogger()
+
+let stop _ =
+    // TODO: Disconnect from GES
+    true
+
+let start hostControl =
+    let log = configureLogger()
+    let streamLog = log.ForContext("stream", "test")
 
     // TODO: Connect to GES and send all events to Serilog
     true

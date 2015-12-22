@@ -7,6 +7,13 @@
     EventStore:
         ConnectionString: ConnectTo=tcp://admin:changeit@127.0.0.1:8003
 
+    Properties:
+        - key: service
+          value: dummy-service
+        - key: environment
+          value: production
+
+
     Sinks:
         Console:
             Enabled: true
