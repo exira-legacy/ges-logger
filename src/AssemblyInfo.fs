@@ -1,13 +1,13 @@
 ﻿namespace System
 open System.Reflection
 
-[<assembly: AssemblyTitleAttribute("ges-runner")>]
-[<assembly: AssemblyProductAttribute("Exira.EventStore.Runner")>]
-[<assembly: AssemblyDescriptionAttribute("Exira.EventStore.Runner is a wrapper that uses Topshelf to run EventStore as a Windows Service")>]
-[<assembly: AssemblyVersionAttribute("1.0.13")>]
-[<assembly: AssemblyFileVersionAttribute("1.0.13")>]
-[<assembly: AssemblyMetadataAttribute("githash","d885b613b3e1cf1c742d1d4abf164d0079992f37")>]
+[<assembly: AssemblyTitleAttribute("ges-logger")>]
+[<assembly: AssemblyProductAttribute("Exira.EventStore.Logger")>]
+[<assembly: AssemblyDescriptionAttribute("Exira.EventStore.Logger is a Topshelf service to log EventStore events using Serilog")>]
+[<assembly: AssemblyVersionAttribute("0.1.0")>]
+[<assembly: AssemblyFileVersionAttribute("0.1.0")>]
+[<assembly: AssemblyMetadataAttribute("githash","6bbba72110be6c8c09d598df906bfd51bd2bd3cc")>]
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] Version = "1.0.13"
+    let [<Literal>] Version = "0.1.0"

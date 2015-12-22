@@ -26,10 +26,10 @@ let main argv =
     |> run_as_local_system
     |> start_auto
     |> enable_shutdown
-    |> with_recovery (ServiceRecovery.Default |> restart (min loggerConfig.Runner.RestartIntervalInMinutes))
+    |> with_recovery (ServiceRecovery.Default |> restart (min loggerConfig.Logger.Service.RestartIntervalInMinutes))
     |> with_start start
     |> with_stop stop
-    |> description loggerConfig.Runner.Description
-    |> display_name loggerConfig.Runner.ServiceName
-    |> service_name loggerConfig.Runner.ServiceName
+    |> description loggerConfig.Logger.Service.Description
+    |> display_name loggerConfig.Logger.Service.ServiceName
+    |> service_name loggerConfig.Logger.Service.ServiceName
     |> run

@@ -1,4 +1,20 @@
 ﻿Logger:
-    ServiceName: ges-logger
-    Description: Log Event Store events
-    RestartIntervalInMinutes: 1
+    Service:
+        ServiceName: ges-logger
+        Description: Log Event Store events
+        RestartIntervalInMinutes: 1
+
+    EventStore:
+        ConnectionString: ConnectTo=tcp://admin:changeit@127.0.0.1:8003
+
+    MinimumLevel: Information
+
+    Sinks:
+        Console:
+            Enabled: true
+
+        RollingFile:
+            Enabled: true
+
+        Seq:
+            Enabled: false
