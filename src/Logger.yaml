@@ -7,8 +7,6 @@
     EventStore:
         ConnectionString: ConnectTo=tcp://admin:changeit@127.0.0.1:8003
 
-    MinimumLevel: Information
-
     Sinks:
         Console:
             Enabled: true

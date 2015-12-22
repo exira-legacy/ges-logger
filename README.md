@@ -8,7 +8,21 @@ To install do the following:
 
   * Download a release from the [Releases page](https://github.com/exira/ges-logger/releases) and unzip somewhere, for example ```C:\ges-logger\```
 
-  * Update ```Logger.yaml``` file
+  * Edit ```Logger.yaml``` using:
+    * Service:
+      * ServiceName: `ges-logger`, the name which will show up in Services.
+      * Description: `Log Event Store event`, the description used in Services.
+
+    * EventStore:
+      * ConnectionString: `ConnectTo=tcp://admin:changeit@127.0.0.1:8003`, the EventStore connection string to grab all events from.
+
+    * Sinks:
+      * Console:
+        * Enabled: `true`, turn on ColoredConsole logger.
+      * RollingFile:
+        * Enabled: `true`, turn on ColoredConsole logger.
+      * Seq:
+        * Enabled: `true`, turn on ColoredConsole logger.
 
   * Run the ```Install.ps1``` script with the same servicename you configured in ```Logger.yaml```, for example: ```powershell ./Install.ps1 -servicename ges-logger```
 

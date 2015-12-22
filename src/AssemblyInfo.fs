@@ -6,7 +6,7 @@ open System.Reflection
 [<assembly: AssemblyDescriptionAttribute("Exira.EventStore.Logger is a Topshelf service to log EventStore events using Serilog")>]
 [<assembly: AssemblyVersionAttribute("0.1.0")>]
 [<assembly: AssemblyFileVersionAttribute("0.1.0")>]
-[<assembly: AssemblyMetadataAttribute("githash","6bbba72110be6c8c09d598df906bfd51bd2bd3cc")>]
+[<assembly: AssemblyMetadataAttribute("githash","8d8f33636fab3f434a03634bf49af791263d8f77")>]
 do ()
 
 module internal AssemblyVersionInformation =
