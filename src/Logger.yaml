@@ -1,0 +1,4 @@
+﻿Logger:
+    ServiceName: ges-logger
+    Description: Log Event Store events
+    RestartIntervalInMinutes: 1
