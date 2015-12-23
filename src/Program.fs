@@ -1,7 +1,10 @@
-﻿open System.Diagnostics
-open System.Reflection
+﻿open System.Reflection
+open System.Text
 open System.IO
 open FSharp.Configuration
+open Exira.EventStore
+open Exira.EventStore.EventStore
+open EventStore.ClientAPI
 open Topshelf
 open Time
 open Serilog
@@ -15,7 +18,12 @@ type LoggerConfig = YamlConfig<"Logger.yaml">
 let loggerConfig = LoggerConfig()
 loggerConfig.Load configPath
 
-let configureLogger () =
+let private checkpointStreamName = sprintf "$%s-checkpoint" loggerConfig.Logger.Service.ServiceName
+let private checkpointStream = checkpointStreamName |> StreamId
+
+let mutable (es: IEventStoreConnection option) = None
+
+let log =
     let logger =
         LoggerConfiguration()
             .Destructure.JsonNetTypes()
@@ -34,21 +42,63 @@ let configureLogger () =
             logger.WriteTo.RollingFile(loggerConfig.Logger.Sinks.RollingFile.PathFormat)
         else logger
 
+    let logger =
+        if loggerConfig.Logger.Sinks.Seq.Enabled then
+            logger.WriteTo.Seq(loggerConfig.Logger.Sinks.Seq.Url.ToString(), apiKey = loggerConfig.Logger.Sinks.Seq.ApiKey)
+        else logger
+
     logger.CreateLogger()
 
+let logEvent esConnection (resolvedEvent: ResolvedEvent) =
+    let json = Encoding.UTF8.GetString resolvedEvent.OriginalEvent.Data
+
+    log.Information("{stream}@{number} {type} {@event}",
+        resolvedEvent.OriginalStreamId,
+        resolvedEvent.OriginalEventNumber,
+        resolvedEvent.OriginalEvent.EventType,
+        JsonConvert.DeserializeObject json)
+
+    let result = storeCheckpoint esConnection checkpointStream resolvedEvent.OriginalPosition.Value |> Async.Catch |> Async.RunSynchronously
+    match result with
+    | Choice1Of2 _ -> ()
+    | Choice2Of2 ex ->
+        match ex with
+        | :? System.AggregateException as aex ->
+            match aex.InnerException with
+            | :? System.ObjectDisposedException -> () // The connection has already been closed, but there are still events incoming
+            | _ -> raise aex.InnerException
+        | _ -> raise ex
+
+let private eventAppeared esConnection = fun _ (resolvedEvent: ResolvedEvent) ->
+    if resolvedEvent.OriginalStreamId.StartsWith "$" then ()
+    else logEvent esConnection resolvedEvent
+
+let private subscribe esConnection = fun reconnect ->
+    let lastPosition = getCheckpoint esConnection checkpointStream |> Async.RunSynchronously
+    subscribeToAllFrom esConnection lastPosition true (eventAppeared esConnection) ignore reconnect
+
+let rec private subscriptionDropped esConnection = fun _ reason ex  ->
+    printfn "Subscription Dropped: %O - %O" reason ex
+    if reason = SubscriptionDropReason.ConnectionClosed then ()
+    else subscribe esConnection (subscriptionDropped esConnection) |> ignore
+
 let stop _ =
-    // TODO: Disconnect from GES
-    true
+    match es with
+        | None -> true
+        | Some esConnection ->
+            esConnection.Close()
+            es <- None
+            true
 
-let start hostControl =
-    let log = configureLogger()
-    let streamLog = log.ForContext("stream", "test")
-
-    // TODO: Connect to GES and send all events to Serilog
+let start _ =
+    let esConnection = connect loggerConfig.Logger.EventStore.ConnectionString |> Async.RunSynchronously
+    initalizeCheckpoint esConnection checkpointStream |> Async.RunSynchronously
+    subscribe esConnection (subscriptionDropped esConnection) |> ignore
+    es <- Some esConnection
     true
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     Service.Default
     |> run_as_local_system
     |> start_auto

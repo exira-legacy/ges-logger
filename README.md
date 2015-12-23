@@ -1,6 +1,6 @@
 ﻿# ges-logger
 
-[Topshelf](http://topshelf-project.com/) service to log [EventStore](https://geteventstore.com/) events using Serilog.
+[Topshelf](http://topshelf-project.com/) service to log [EventStore](https://geteventstore.com/) events using [Serilog](http://serilog.net/).
 
 ## Usage
 

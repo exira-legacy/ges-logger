@@ -37,6 +37,9 @@ NUGET
     Octokit (0.16.0)
       Microsoft.Net.Http
     Serilog (1.5.14)
+    Serilog.Sinks.Seq (1.5.27)
+      Microsoft.Net.Http (>= 2.2.20) - framework: net40
+      Serilog (>= 1.5.10) - framework: >= net40
     SourceLink.Fake (1.1.0)
     Topshelf (3.2.0)
     Topshelf.FSharp (2.1.0)

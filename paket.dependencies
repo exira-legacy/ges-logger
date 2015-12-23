@@ -11,5 +11,6 @@ nuget Exira.ErrorHandling
 nuget Exira.EventStore
 nuget Topshelf.FSharp
 nuget Destructurama.JsonNet
+nuget Serilog.Sinks.Seq
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

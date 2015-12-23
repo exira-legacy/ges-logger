@@ -20,7 +20,9 @@
 
         RollingFile:
             Enabled: true
-            PathFormat: events.txt
+            PathFormat: events-{Date}.txt
 
         Seq:
             Enabled: false
+            Url: YOUR SEQ ENDPOINT
+            ApiKey: YOUR API KEY

@@ -4,3 +4,4 @@ Exira.ErrorHandling
 Exira.EventStore
 Topshelf.FSharp
 Destructurama.JsonNet
+Serilog.Sinks.Seq
