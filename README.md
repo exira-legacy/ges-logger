@@ -19,10 +19,15 @@ To install do the following:
     * Sinks:
       * Console:
         * Enabled: `true`, turn on ColoredConsole logger.
+
       * RollingFile:
-        * Enabled: `true`, turn on ColoredConsole logger.
+        * Enabled: `true`, turn on RollingFile logger.
+        * PathFormat: `events-{Date}.txt`, filename format for RollingFile logger.
+
       * Seq:
-        * Enabled: `true`, turn on ColoredConsole logger.
+        * Enabled: `true`, turn on Seq logger.
+        * Url: `YOUR SEQ ENDPOINT`, Seq endpoint to log to.
+        * ApiKey: `YOUR API KEY`, Seq API key to use.
 
   * Run the ```Install.ps1``` script with the same servicename you configured in ```Logger.yaml```, for example: ```powershell ./Install.ps1 -servicename ges-logger```
 
