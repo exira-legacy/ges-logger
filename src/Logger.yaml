@@ -13,7 +13,6 @@
         - key: environment
           value: production
 
-
     Sinks:
         Console:
             Enabled: true
