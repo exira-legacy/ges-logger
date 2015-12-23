@@ -18,7 +18,7 @@ type LoggerConfig = YamlConfig<"Logger.yaml">
 let loggerConfig = LoggerConfig()
 loggerConfig.Load configPath
 
-let private checkpointStreamName = sprintf "$%s-checkpoint" loggerConfig.Logger.Service.ServiceName
+let private checkpointStreamName = sprintf "%s-checkpoint" loggerConfig.Logger.Service.ServiceName
 let private checkpointStream = checkpointStreamName |> StreamId
 
 let mutable (es: IEventStoreConnection option) = None

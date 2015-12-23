@@ -8,15 +8,15 @@ NUGET
     EventStore.Client (3.4.0)
     Exira.ErrorHandling (0.1.33)
       FSharp.Core
-    Exira.EventStore (0.5.13)
+    Exira.EventStore (0.6.14)
       EventStore.Client
       ExtCore
       FSharp.Core
       FsPickler.Json
     ExtCore (0.8.45)
-    FAKE (4.8.0)
+    FAKE (4.11.3)
     FSharp.Compiler.Service (1.4.0.6)
-    FSharp.Configuration (0.5.3)
+    FSharp.Configuration (0.5.7)
     FSharp.Core (4.0.0.1)
     FSharp.Formatting (2.12.0)
       FSharp.Compiler.Service (1.4.0.6)
@@ -34,14 +34,14 @@ NUGET
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Newtonsoft.Json (7.0.1)
-    Octokit (0.16.0)
+    Octokit (0.17.0)
       Microsoft.Net.Http
     Serilog (1.5.14)
     Serilog.Sinks.Seq (1.5.27)
       Microsoft.Net.Http (>= 2.2.20) - framework: net40
       Serilog (>= 1.5.10) - framework: >= net40
     SourceLink.Fake (1.1.0)
-    Topshelf (3.2.0)
+    Topshelf (3.3.1)
     Topshelf.FSharp (2.1.0)
       Topshelf (>= 3.2.0)
 GITHUB
