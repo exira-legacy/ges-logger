@@ -23,5 +23,5 @@
 
         Seq:
             Enabled: false
-            Url: YOUR SEQ ENDPOINT
+            Url: https://example.org
             ApiKey: YOUR API KEY
