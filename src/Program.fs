@@ -99,14 +99,23 @@ let start _ =
 
 [<EntryPoint>]
 let main _ =
-    Service.Default
-    |> run_as_local_system
-    |> start_auto
-    |> enable_shutdown
-    |> with_recovery (ServiceRecovery.Default |> restart (min loggerConfig.Logger.Service.RestartIntervalInMinutes))
-    |> with_start start
-    |> with_stop stop
-    |> description loggerConfig.Logger.Service.Description
-    |> display_name loggerConfig.Logger.Service.ServiceName
-    |> service_name loggerConfig.Logger.Service.ServiceName
+    let service =
+        Service.Default
+        |> run_as_local_system
+        |> start_auto
+        |> enable_shutdown
+        |> with_recovery (ServiceRecovery.Default |> restart (min loggerConfig.Logger.Service.RestartIntervalInMinutes))
+        |> with_start start
+        |> with_stop stop
+        |> description loggerConfig.Logger.Service.Description
+        |> display_name loggerConfig.Logger.Service.ServiceName
+        |> service_name loggerConfig.Logger.Service.ServiceName
+
+    let service =
+        if loggerConfig.Logger.Service.HasDependencies then
+            loggerConfig.Logger.Service.DependsOn
+            |> Seq.fold (fun s dependency -> s |> depends_on dependency) service
+        else service
+
+    service
     |> run

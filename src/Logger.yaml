@@ -3,6 +3,9 @@
         ServiceName: ges-logger
         Description: Log Event Store events
         RestartIntervalInMinutes: 1
+        HasDependencies: true
+        DependsOn:
+            - ges-runner
 
     EventStore:
         ConnectionString: ConnectTo=tcp://admin:changeit@127.0.0.1:8003
