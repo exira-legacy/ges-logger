@@ -1,1 +1,173 @@
-"My Page" 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>exira - ges-logger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Exira.EventStore.Logger is a Topshelf service to log EventStore events using Serilog"/>
+    <meta name="author" content="exira"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/ges-logger/content/style.css" />
+    <script type="text/javascript" src="/ges-logger/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://exira.com">exira.com</a></li>
+          <li><a href="http://git.exira.com">git.exira.com</a></li>
+          <li><a href="http://github.com/exira/ges-logger">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/ges-logger/index.html">ges-logger</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="ges-logger" class="anchor" href="#ges-logger">ges-logger <a href="https://www.nuget.org/packages/Exira.EventStore.Logger/"><img src="http://img.shields.io/nuget/v/Exira.EventStore.Logger.svg?style=flat" alt="NuGet Status" /></a></a></h1>
+
+<p><a href="http://topshelf-project.com/">Topshelf</a> service to log <a href="https://geteventstore.com/">EventStore</a> events using <a href="http://serilog.net/">Serilog</a>.</p>
+
+<h3><a name="Usage" class="anchor" href="#Usage">Usage</a></h3>
+
+<p>To install do the following:</p>
+
+<ul>
+<li><p>Download a release from the <a href="https://github.com/exira/ges-logger/releases">Releases page</a> and unzip somewhere, for example <code>C:\ges-logger\</code></p></li>
+<li>Edit <code>Logger.yaml</code> using:
+<ul>
+<li>Service:
+<ul>
+<li>ServiceName: <code>ges-logger</code>, the name which will show up in Services.</li>
+<li><p>Description: <code>Log Event Store event</code>, the description used in Services.</p></li>
+</ul></li>
+<li>EventStore:
+<ul>
+<li><p>ConnectionString: <code>ConnectTo=tcp://admin:changeit@127.0.0.1:8003</code>, the EventStore connection string to grab all events from.</p></li>
+</ul></li>
+<li>Sinks:
+<ul>
+<li>Console:
+<ul>
+<li><p>Enabled: <code>true</code>, turn on ColoredConsole logger.</p></li>
+</ul></li>
+<li>RollingFile:
+<ul>
+<li>Enabled: <code>true</code>, turn on RollingFile logger.</li>
+<li><p>PathFormat: <code>events-{Date}.txt</code>, filename format for RollingFile logger.</p></li>
+</ul></li>
+<li>Seq:
+<ul>
+<li>Enabled: <code>true</code>, turn on Seq logger.</li>
+<li>Url: <code>YOUR SEQ ENDPOINT</code>, Seq endpoint to log to.</li>
+<li><p>ApiKey: <code>YOUR API KEY</code>, Seq API key to use.</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Run the <code>Install.ps1</code> script with the same servicename you configured in <code>Logger.yaml</code>, for example: <code>powershell ./Install.ps1 -servicename ges-logger</code></p></li>
+<li>Instead you can also simply run one of the following:
+<ul>
+<li><code>ges-logger.exe install</code></li>
+<li><code>ges-logger.exe start</code></li>
+<li><code>ges-logger.exe stop</code></li>
+<li><p><code>ges-logger.exe uninstall</code></p></li>
+</ul></li>
+<li><p>Enjoy your logged events</p></li>
+</ul>
+
+<h3><a name="Example-Output" class="anchor" href="#Example-Output">Example Output</a></h3>
+
+<pre><code>λ ges-logger.exe install
+Configuration Result:
+[Success] Name ges-logger
+[Success] Description Log Event Store events
+[Success] ServiceName ges-logger
+Topshelf v3.2.150.0, .NET Framework v4.0.30319.42000
+Running a transacted installation.
+Beginning the Install phase of the installation.
+Installing ges-logger service
+Installing service ges-logger...
+Service ges has been successfully installed.
+The Install phase completed successfully, and the Commit phase is beginning.
+The Commit phase completed successfully.
+The transacted install has completed.
+</code></pre>
+
+<pre><code>λ ges-logger.exe start
+Configuration Result:
+[Success] Name ges-logger
+[Success] Description Log Event Store events
+[Success] ServiceName ges-logger
+Topshelf v3.2.150.0, .NET Framework v4.0.30319.42000
+The ges-logger service was started.
+</code></pre>
+
+<pre><code>λ ges-logger.exe stop
+Configuration Result:
+[Success] Name ges-logger
+[Success] Description Log Event Store events
+[Success] ServiceName ges-logger
+Topshelf v3.2.150.0, .NET Framework v4.0.30319.42000
+The ges-logger service was stopped.
+</code></pre>
+
+<pre><code>λ ges-logger.exe uninstall
+Configuration Result:
+[Success] Name ges-logger
+[Success] Description Log Event Store events
+[Success] ServiceName ges-logger
+Topshelf v3.2.150.0, .NET Framework v4.0.30319.42000
+
+<p>The uninstall is beginning.
+Uninstalling ges-logger service
+Removing EventLog source ges.
+Service ges-logger is being removed from the system...
+Service ges-logger was successfully removed from the system.
+The uninstall has completed.
+</code></pre></p>
+
+<h3><a name="Cloning" class="anchor" href="#Cloning">Cloning</a></h3>
+
+<p><code>git clone git@github.com:exira/ges-logger.git -c core.autocrlf=input</code></p>
+
+<h3><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h3>
+
+<p>The project is hosted on <a href="https://github.com/exira/ges-logger">GitHub</a> where you can <a href="https://github.com/exira/ges-logger/issues">report issues</a>, fork
+the project and submit pull requests. You might also want to read the
+<a href="https://github.com/exira/ges-logger/blob/master/README.md">library design notes</a> to understand how it works.</p>
+
+<p>For more information see the <a href="https://github.com/exira/ges-logger/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
+
+
+        </div>
+        <div class="span3">
+        <img src="/ges-logger/img/logobig.png" alt="exira.com" style="width:150px;margin:10px" />
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">ges-logger</li>
+            <li><a href="/ges-logger/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/Exira.EventStore.Logger">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/exira/ges-logger">Source Code on GitHub</a></li>
+            <li><a href="/ges-logger/license.html">License</a></li>
+            <li><a href="/ges-logger/release-notes.html">Release Notes</a></li>
+
+            
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/ges-logger/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/exira/ges-logger"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
